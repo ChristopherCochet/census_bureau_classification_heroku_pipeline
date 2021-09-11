@@ -6,7 +6,7 @@ test:
 	pytest -vv --cov-report term-missing --cov=app starter/test_*.py
 
 format:
-	black *.py
+	black starter/*.py
 
 lint:
 	pylint --disable=R,C starter/main.py 
