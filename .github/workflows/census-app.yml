@@ -15,6 +15,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+      - uses: iterative/setup-dvc@v1
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -37,3 +38,6 @@ jobs:
       - name: Format code
         run: |
           make format
+      - name: DVC pull
+        run: |          
+          dvc pull
