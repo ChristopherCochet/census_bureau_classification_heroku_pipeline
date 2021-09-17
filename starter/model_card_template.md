@@ -52,7 +52,7 @@ Census Income Data Set: https://archive.ics.uci.edu/ml/datasets/census+income
     * recall = 0.68
     * fbeta(1) = 0.74
 
-<img src="screenshots/roc-auc-curve.JPG" width="600">
+<img src="screenshots/roc-auc-curve.JPG" width="800">
 
 
 ## Ethical Considerations
@@ -61,7 +61,7 @@ Census Income Data Set: https://archive.ics.uci.edu/ml/datasets/census+income
 * marital status is the most important feature
 * Top feature by importances
 
-<img src="screenshots/model-feature-importances.JPG" width="800">
+<img src="screenshots/model-feature-importances.JPG" width="600">
 
 ## Caveats and Recommendations
 
