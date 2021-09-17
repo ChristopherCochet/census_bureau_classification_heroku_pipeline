@@ -392,8 +392,7 @@ gbc = GradientBoostingClassifier(
     n_estimators=150, max_depth=5, loss="exponential", verbose=verbose_lvl
 )
 
-# models.extend([rf, gbc])
-models.extend([rf])
+models.extend([rf, gbc])
 
 # parallel cross-validate models, using roc_auc as evaluation metric, and print summaries
 print("Beginning cross validation...")

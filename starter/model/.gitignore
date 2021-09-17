@@ -2,3 +2,4 @@
 /census_feature_encoding.pkl
 /slice_output.txt
 /feature_importances.csv
+/census_model.pkl
