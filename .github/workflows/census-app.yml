@@ -40,4 +40,4 @@ jobs:
           make format
       - name: DVC pull
         run: |          
-          dvc pull
+          make dvc
