@@ -61,7 +61,7 @@ Census Income Data Set: https://archive.ics.uci.edu/ml/datasets/census+income
 * marital status is the most important feature
 * Top feature by importances
 
-<img src="screenshots/model-feature-importances.JPG" width="600">
+<img src="screenshots/model-feature-importances.JPG" width="800">
 
 ## Caveats and Recommendations
 
