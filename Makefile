@@ -11,4 +11,8 @@ format:
 lint:
 	pylint --disable=R,C starter/main.py 
 
+dvc:          
+	dvc remote add -d s3remote s3://census-bureau-classification &&\
+          dvc pull	
+
 all: install lint test
