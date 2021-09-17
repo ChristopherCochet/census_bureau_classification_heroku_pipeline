@@ -10,5 +10,5 @@ pytest-cov
 pylint==2.7.4
 black==20.8b1
 ipython==7.22.0
-dvc-s3==2.6.4
+s3
 dvc==2.6.4
