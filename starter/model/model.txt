@@ -1,0 +1,2 @@
+RandomForestClassifier(max_depth=25, max_features=30, min_samples_split=60,
+                       n_estimators=150, n_jobs=-1)
