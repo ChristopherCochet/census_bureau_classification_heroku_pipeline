@@ -1,16 +1,14 @@
 import dill as pickle
 import pandas as pd
-import pdb
 
 from fastapi import FastAPI, HTTPException
 
 # Import Union since our Item object will have tags that can be strings or a list.
-from typing import Union
+# from typing import Union
 
 # BaseModel from Pydantic is used to define data objects.
 from pydantic import BaseModel
 
-from sklearn.compose import ColumnTransformer
 from starter.ml.train_model import one_hot_encode_feature_df, inference
 
 
