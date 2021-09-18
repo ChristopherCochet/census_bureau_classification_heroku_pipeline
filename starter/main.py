@@ -3,7 +3,8 @@ import pandas as pd
 
 from fastapi import FastAPI, HTTPException
 
-# Import Union since our Item object will have tags that can be strings or a list.
+# Import Union since our Item object will have tags that can be
+# strings or a list.
 # from typing import Union
 
 # BaseModel from Pydantic is used to define data objects.
