@@ -7,7 +7,7 @@ fastapi==0.63.0
 uvicorn
 gunicorn
 pytest-cov
-pylint==2.7.4
+flake8
 black==20.8b1
 ipython==7.22.0
 dvc[s3]
