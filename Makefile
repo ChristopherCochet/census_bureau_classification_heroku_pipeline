@@ -9,7 +9,7 @@ format:
 	black starter/*.py
 
 lint:
-	pylint --disable=R,C starter/main.py 
+	flake8 starter/main.py 
 
 dvc:          
 	dvc remote add -d s3remote s3://census-bureau-classification &&\
