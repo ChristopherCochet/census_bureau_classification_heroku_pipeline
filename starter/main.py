@@ -16,6 +16,7 @@ model_dir = "starter/model/"
 feature_encoding_file = model_dir + "census_feature_encoding.pkl"
 census_model_file = model_dir + "census_model.pkl"
 
+
 # Declare the data object with its components and their type.
 class census_data(BaseModel):
     age: int
