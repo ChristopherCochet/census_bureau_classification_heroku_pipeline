@@ -2,7 +2,6 @@
 import pandas as pd
 import numpy as np
 import dill as pickle
-import matplotlib.pyplot as plt
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.model_selection import cross_val_score
 from sklearn.utils import shuffle
