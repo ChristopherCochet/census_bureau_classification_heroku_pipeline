@@ -51,7 +51,8 @@ def get_columns_from_transformer(column_transformer, input_colums):
 
     col_name = []
 
-    for transformer_in_columns in column_transformer.transformers_[:-1]:
+    for transformer_in_columns in column_transformer.transformers_:
+        # the last transformer is ColumnTransformer's 'remainder'
         raw_col_name = transformer_in_columns[2]
         if isinstance(transformer_in_columns[1], Pipeline):
             transformer = transformer_in_columns[1].steps[-1][1]
@@ -68,13 +69,7 @@ def get_columns_from_transformer(column_transformer, input_colums):
         elif isinstance(names, str):
             col_name.append(names)
 
-    if column_transformer.transformers_[-1][1] != "drop":
-        [_, _, remainder_columns] = column_transformer.transformers_[-1]
-
-        for col_idx in remainder_columns:
-            print(input_colums, col_idx)
-            col_name.append(input_colums[col_idx])
-
+    # print(col_name)
     return col_name
 
 
@@ -317,122 +312,127 @@ def save_results(
     feature_importances.to_csv(model_dir + "feature_importances.csv")
 
 
-# Data Loading and preprocessing
-################################
+# Script Main
+############################
+if __name__ == "__main__":
 
-# define inputs
-train_file = "../../data/census_clean.csv"
-model_dir = "../../model/"
+    # Data Loading and preprocessing
+    ################################
 
-# define variables
-cat_features = [
-    "workclass",
-    "education",
-    "marital-status",
-    "occupation",
-    "relationship",
-    "race",
-    "sex",
-    "native-country",
-]
-numeric_features = [
-    "age",
-    "fnlgt",
-    "education-num",
-    "capital-gain",
-    "capital-loss",
-    "hours-per-week",
-]
-target_var = "salary"
+    # define inputs
+    train_file = "starter/data/census_clean.csv"
+    model_dir = "starter/model/"
 
-# load data
-print("Loading data...")
-train_df = load_file(train_file)
+    # define variables
+    cat_features = [
+        "workclass",
+        "education",
+        "marital-status",
+        "occupation",
+        "relationship",
+        "race",
+        "sex",
+        "native-country",
+    ]
+    numeric_features = [
+        "age",
+        "fnlgt",
+        "education-num",
+        "capital-gain",
+        "capital-loss",
+        "hours-per-week",
+    ]
+    target_var = "salary"
 
-# clean, shuffle, and reindex training data -- shuffling improves cross-validation accuracy
-clean_train_df = shuffle(train_df).reset_index()
+    # load data
+    print("Loading data...")
+    train_df = load_file(train_file)
 
-# encode categorical data and get final feature dfs
-print("Encoding data...")
-ct = generate_feature_encoding(
-    train_df, cat_vars=cat_features, num_vars=numeric_features
-)
-feature_df = one_hot_encode_feature_df(train_df, ct)
+    # shuffle, and reindex training data -- shuffling improves cross-validation accuracy
+    print("Shuffling data...")
+    train_df = shuffle(train_df)
 
-# get target df
-target_df = get_target_df(train_df, target_var)
+    # get target df
+    print("Retrieving labels...")
+    target_df = train_df.pop(target_var)
 
-
-# Modelling
-###########################################
-
-# initialize model list and dicts
-models = []
-roc_auc_dict = {}
-cv_std = {}
-res = {}
-
-# define number of processes to run in parallel
-num_procs = -1
-
-# shared model parameters
-verbose_lvl = 0
-
-# create models
-rf = RandomForestClassifier(
-    n_estimators=150,
-    n_jobs=num_procs,
-    max_depth=25,
-    min_samples_split=60,
-    max_features=30,
-    verbose=verbose_lvl,
-)
-
-gbc = GradientBoostingClassifier(
-    n_estimators=150, max_depth=5, loss="exponential", verbose=verbose_lvl
-)
-
-models.extend([rf, gbc])
-
-# parallel cross-validate models, using roc_auc as evaluation metric, and print summaries
-print("Beginning cross validation...")
-for model in models:
-    train_model(model, feature_df, target_df, num_procs, roc_auc_dict, cv_std)
-    print_summary(model, roc_auc_dict, cv_std)
-
-
-# choose model with best auc_roc
-best_model = get_best_model(roc_auc_dict)
-
-# train best model on entire dataset
-print("Fit best performing model...")
-best_model.fit(feature_df, target_df)
-
-# best model metrics
-print("Compute metrics...")
-preds = inference(best_model, feature_df)
-precision, recall, fbeta = compute_model_metrics(target_df.values, preds)
-print(
-    "Model metrics: precision = {}, recall = {}, fbeta(1) = {}".format(
-        precision, recall, fbeta
+    # encode categorical data and get final feature dfs
+    print("Encoding data...")
+    ct = generate_feature_encoding(
+        train_df, cat_vars=cat_features, num_vars=numeric_features
     )
-)
+    feature_df = one_hot_encode_feature_df(train_df, ct)
 
-# compute slice metrics for education
-print("Compute slice metrics...")
-cat_feature = "education"
-cat_metric_df = compute_slice_metrics(best_model, feature_df, target_df, cat_feature)
-print(cat_metric_df)
+    # Modelling
+    ###########################################
 
+    # initialize model list and dicts
+    models = []
+    roc_auc_dict = {}
+    cv_std = {}
+    res = {}
 
-# Save feature importances
-print("Save model and feature importances...")
-importances = best_model.feature_importances_
-feature_importances = pd.DataFrame(
-    {"feature": feature_df.columns, "importance": importances}
-)
-feature_importances.sort_values(by="importance", ascending=False, inplace=True)
-feature_importances.set_index("feature", inplace=True, drop=True)
+    # define number of processes to run in parallel
+    num_procs = -1
 
-# save results and model
-save_results(best_model, ct, roc_auc_dict[model], feature_importances, model_dir)
+    # shared model parameters
+    verbose_lvl = 0
+
+    # create models
+    rf = RandomForestClassifier(
+        n_estimators=150,
+        n_jobs=num_procs,
+        max_depth=25,
+        min_samples_split=60,
+        max_features=30,
+        verbose=verbose_lvl,
+    )
+
+    gbc = GradientBoostingClassifier(
+        n_estimators=150, max_depth=5, loss="exponential", verbose=verbose_lvl
+    )
+
+    models.extend([rf, gbc])
+
+    # parallel cross-validate models, using roc_auc as evaluation metric, and print summaries
+    print("Beginning cross validation...")
+    for model in models:
+        train_model(model, feature_df, target_df, num_procs, roc_auc_dict, cv_std)
+        print_summary(model, roc_auc_dict, cv_std)
+
+    # choose model with best auc_roc
+    best_model = get_best_model(roc_auc_dict)
+
+    # train best model on entire dataset
+    print("Fit best performing model...")
+    best_model.fit(feature_df, target_df)
+
+    # best model metrics
+    print("Compute metrics...")
+    preds = inference(best_model, feature_df)
+    precision, recall, fbeta = compute_model_metrics(target_df.values, preds)
+    print(
+        "Model metrics: precision = {}, recall = {}, fbeta(1) = {}".format(
+            precision, recall, fbeta
+        )
+    )
+
+    # compute slice metrics for education
+    print("Compute slice metrics...")
+    cat_feature = "education"
+    cat_metric_df = compute_slice_metrics(
+        best_model, feature_df, target_df, cat_feature
+    )
+    print(cat_metric_df)
+
+    # Save feature importances
+    print("Save model and feature importances...")
+    importances = best_model.feature_importances_
+    feature_importances = pd.DataFrame(
+        {"feature": feature_df.columns, "importance": importances}
+    )
+    feature_importances.sort_values(by="importance", ascending=False, inplace=True)
+    feature_importances.set_index("feature", inplace=True, drop=True)
+
+    # save results and model
+    save_results(best_model, ct, roc_auc_dict[model], feature_importances, model_dir)

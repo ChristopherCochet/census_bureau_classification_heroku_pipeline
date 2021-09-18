@@ -1,27 +1,40 @@
 from fastapi.testclient import TestClient
 
 # Import our app from main.py.
-# from data import app
+from main import census_app
 
-# # Instantiate the testing client with our app.
-# client = TestClient(app)
+# Instantiate the testing client with our app.
+client = TestClient(census_app)
 
-# # Write tests using the same syntax as with the requests module.
-# def test_get_path():
-#     r = client.get("/items/42")
-#     assert r.status_code == 200
-#     assert r.json() == {"fetch": "Fetched 1 of 42"}
-
-
-# def test_get_path_query():
-#     r = client.get("/items/42?count=5")
-#     assert r.status_code == 200
-#     assert r.json() == {"fetch": "Fetched 5 of 42"}
+# test Fast API root
+def test_api_locally_get_root():
+    r = client.get("/")
+    assert r.status_code == 200
 
 
-# def test_get_malformed():
-#     r = client.get("/items")
-#     assert r.status_code != 200
+def test_api_locally_get_predictions():
+    r = client.post(
+        "/predict",
+        # headers={"X-Token": "hailhydra"},
+        json={
+            "age": 39,
+            "workclass": "State-gov",
+            "fnlgt": 77516,
+            "education": "Bachelors",
+            "education_num": 13,
+            "marital_status": "Never-married",
+            "occupation": "Adm-clerical",
+            "relationship": "Not-in-family",
+            "race": "White",
+            "sex": "Male",
+            "capital_gain": 2174,
+            "capital_loss": 0,
+            "hours_per_week": 40,
+            "native_country": "United-States",
+        },
+    )
+    assert r.status_code == 200
+
 
 def test_main():
     pass

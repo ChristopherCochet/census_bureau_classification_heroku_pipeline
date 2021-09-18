@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import dill as pickle
 import pytest
+import pdb
 from sklearn.compose import ColumnTransformer
 from .train_model import one_hot_encode_feature_df, generate_feature_encoding
 
@@ -9,8 +10,9 @@ from .train_model import one_hot_encode_feature_df, generate_feature_encoding
 @pytest.fixture
 def data():
     """ Retrieve Cleaned Dataset """
-    train_file = "../../data/census_clean.csv"
+    train_file = "starter/data/census_clean.csv"
     df = pd.read_csv(train_file)
+    df = df.iloc[:, :-1]  # exclude label
     return df
 
 
@@ -48,17 +50,51 @@ def test_one_generate_feature_encoding(data):
     ), "generate_feature_encoding returned wrong type!"
 
 
-def test_one_hot_encode_feature(data):
+def test_one_hot_encode_feature_df(data):
     """ Check that the data is processed and encoded successfully using the column transformer pickle file """
-    feature_file = "../../model/census_feature_encoding.pkl"
+    feature_file = "starter/model/census_feature_encoding.pkl"
 
+    # pdb.set_trace()
     with open(feature_file, "rb") as file:
         ct = pickle.load(file)
 
     res_df = one_hot_encode_feature_df(data, ct)
     assert isinstance(
         res_df, pd.DataFrame
-    ), "one_hot_encode_feature_df returned wrong type!"
+    ), "test_one_hot_encode_feature_df returned wrong type!"
+
+
+def test_one_hot_encode_feature_sample():
+    """ Check that the data is processed and encoded successfully using the column transformer pickle file """
+    feature_file = "starter/model/census_feature_encoding.pkl"
+
+    dict = {
+        "age": 39,
+        "workclass": "State-gov",
+        "fnlgt": 77516,
+        "education": "Bachelors",
+        "education_num": 13,
+        "marital_status": "Never-married",
+        "occupation": "Adm-clerical",
+        "relationship": "Not-in-family",
+        "race": "White",
+        "sex": "Male",
+        "capital_gain": 2174,
+        "capital_loss": 0,
+        "hours_per_week": 40,
+        "native_country": "United-States",
+    }
+
+    data_df = pd.DataFrame.from_dict([dict])
+    data_df.columns = data_df.columns.str.replace("_", "-")
+
+    with open(feature_file, "rb") as file:
+        ct = pickle.load(file)
+
+    res_df = one_hot_encode_feature_df(data_df, ct)
+    assert isinstance(
+        res_df, pd.DataFrame
+    ), "test_one_hot_encode_feature_sample returned wrong type!"
 
 
 # def test_slice_averages(data):
