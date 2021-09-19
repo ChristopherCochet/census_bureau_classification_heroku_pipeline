@@ -7,7 +7,7 @@ from sklearn.model_selection import cross_val_score
 from sklearn.utils import shuffle
 from sklearn.metrics import roc_auc_score, fbeta_score, precision_score, recall_score
 from sklearn.pipeline import make_pipeline, Pipeline
-from sklearn.preprocessing import FunctionTransformer, OneHotEncoder, LabelBinarizer
+from sklearn.preprocessing import FunctionTransformer, OneHotEncoder
 from sklearn.compose import make_column_transformer, ColumnTransformer
 
 # Helper Functions
@@ -74,8 +74,14 @@ def get_columns_from_transformer(column_transformer, input_colums):
 
 def generate_feature_encoding(df, cat_vars=None, num_vars=None):
     """performs one-hot encoding on all categorical variables and combines result with continuous variables"""
+    def df_to_numeric(df):
+        import pandas
+        return(df.apply(pandas.to_numeric))
+
     ohe = OneHotEncoder()
-    numft = FunctionTransformer(lambda x: x.apply(pd.to_numeric), accept_sparse=True)
+    # can't pickle the following :(
+    # numft = FunctionTransformer(lambda x: x.apply(pd.to_numeric), accept_sparse=True)
+    numft = FunctionTransformer(df_to_numeric, accept_sparse=True)
     ct = ColumnTransformer(
         [("ohe", ohe, cat_vars), ("nuft", numft, num_vars)], remainder="drop"
     )
