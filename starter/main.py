@@ -13,7 +13,7 @@ from pydantic import BaseModel
 from starter.ml.train_model import one_hot_encode_feature_df, inference
 
 
-model_dir = "starter/model/"
+model_dir = "starter/starter/model/"
 feature_encoding_file = model_dir + "census_feature_encoding.pkl"
 census_model_file = model_dir + "census_model.pkl"
 
