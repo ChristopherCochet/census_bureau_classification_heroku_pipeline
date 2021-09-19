@@ -1,4 +1,4 @@
 outs:
-- md5: 1bfb8d60bd303970c218d38c336e2615
-  size: 23116903
+- md5: 5c4fd5d2ed4840354871f1679e533bfc
+  size: 3195
   path: census_feature_encoding.pkl
