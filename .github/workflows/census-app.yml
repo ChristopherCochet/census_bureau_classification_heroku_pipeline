@@ -29,15 +29,15 @@ jobs:
       - name: Install dependencies
         run: |
           make install
-      - name: Lint with pylint
+      - name: Lint with flake8
         run: |
           make lint
+      - name: DVC pull
+        run: |
+          make dvc      
       - name: Test with pytest
         run: |
           make test
       - name: Format code
         run: |
           make format
-      - name: DVC pull
-        run: |          
-          make dvc
