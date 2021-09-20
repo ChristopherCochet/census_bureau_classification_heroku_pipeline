@@ -2,7 +2,8 @@ import pandas as pd
 import numpy as np
 import dill as pickle
 import pytest
-import pdb
+
+# import pdb
 from sklearn.compose import ColumnTransformer
 from .train_model import one_hot_encode_feature_df, generate_feature_encoding
 
@@ -51,7 +52,9 @@ def test_one_generate_feature_encoding(data):
 
 
 def test_one_hot_encode_feature_df(data):
-    """ Check that the data is processed and encoded successfully using the column transformer pickle file """
+    """ Check that the data is processed and encoded successfully using
+        the column transformer pickle file
+    """
     feature_file = "starter/model/census_feature_encoding.pkl"
 
     # pdb.set_trace()
@@ -65,7 +68,9 @@ def test_one_hot_encode_feature_df(data):
 
 
 def test_one_hot_encode_feature_sample():
-    """ Check that the data is processed and encoded successfully using the column transformer pickle file """
+    """ Check that the data is processed and encoded successfully using the
+        column transformer pickle file
+    """
     feature_file = "starter/model/census_feature_encoding.pkl"
 
     dict = {

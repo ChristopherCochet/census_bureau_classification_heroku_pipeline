@@ -5,10 +5,10 @@ import dill as pickle
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.model_selection import cross_val_score
 from sklearn.utils import shuffle
-from sklearn.metrics import roc_auc_score, fbeta_score, precision_score, recall_score
-from sklearn.pipeline import make_pipeline, Pipeline
+from sklearn.metrics import fbeta_score, precision_score, recall_score  # roc_auc_score
+from sklearn.pipeline import Pipeline  # make_pipeline
 from sklearn.preprocessing import FunctionTransformer, OneHotEncoder
-from sklearn.compose import make_column_transformer, ColumnTransformer
+from sklearn.compose import ColumnTransformer  # make_column_transformer
 
 # Helper Functions
 ############################
@@ -21,7 +21,7 @@ def load_file(file):
     Inputs
     ------
     file : string
-        The cleaned census csv dataset file 
+        The cleaned census csv dataset file
 
     Returns
     -------
@@ -59,7 +59,8 @@ def get_columns_from_transformer(column_transformer, input_colums):
             transformer = transformer_in_columns[1]
         try:
             names = transformer.get_feature_names(raw_col_name)
-        except AttributeError:  # if no 'get_feature_names' function, use raw column name
+        except AttributeError:
+            # if no 'get_feature_names' function, use raw column name
             names = raw_col_name
         if isinstance(names, np.ndarray):  # eg.
             col_name += names.tolist()
@@ -73,10 +74,14 @@ def get_columns_from_transformer(column_transformer, input_colums):
 
 
 def generate_feature_encoding(df, cat_vars=None, num_vars=None):
-    """performs one-hot encoding on all categorical variables and combines result with continuous variables"""
+    """performs one-hot encoding on all categorical variables and
+       combines result with continuous variables
+    """
+
     def df_to_numeric(df):
         import pandas
-        return(df.apply(pandas.to_numeric))
+
+        return df.apply(pandas.to_numeric)
 
     ohe = OneHotEncoder()
     # can't pickle the following :(
@@ -91,8 +96,9 @@ def generate_feature_encoding(df, cat_vars=None, num_vars=None):
 
 
 def one_hot_encode_feature_df(df, col_transformer):
-    """performs one-hot encoding on all categorical variables and combines result with continuous variables
-    
+    """performs one-hot encoding on all categorical variables
+       and combines result with continuous variables
+
     Inputs
     ------
     df : pandas dataframe
@@ -117,7 +123,8 @@ def get_target_df(df, target):
 
 
 def train_model(model, feature_df, target_df, num_procs, roc_auc_dict, cv_std):
-    """performs cross validation with the model provided and stores performance in a dictionary
+    """performs cross validation with the model provided and stores
+       performance in a dictionary
 
     Inputs
     ------
@@ -126,15 +133,16 @@ def train_model(model, feature_df, target_df, num_procs, roc_auc_dict, cv_std):
     df : pandas dataframe
         The preprocessed feature dataframe
     feature_df : pandas dataframe
-        The preprocessed feature dataframe        
+        The preprocessed feature dataframe
     target_df : pandas dataframe
         The label dataframe
     num_procs : pint
-        Number of processors used for the models cross validation training      
+        Number of processors used for the models cross validation training
     roc_auc_dict : dictionary
         Trained machine learning models and their roc_auc scores.
     cv_std : dictionary
-        Trained machine learning models and their roc_auc scores std deviation.        
+        Trained machine learning models and their roc_auc scores std deviation.
+
     Returns
     -------
 
@@ -150,7 +158,7 @@ def train_model(model, feature_df, target_df, num_procs, roc_auc_dict, cv_std):
 
 def get_best_model(roc_auc_dict):
     """return the machine learning model with the best performance
-    
+
     Inputs
     ------
     roc_auc_dict : dictionary
@@ -182,6 +190,7 @@ def print_summary(model, roc_auc_dict, cv_std):
         Trained machine learning models cross val roc_auc scores.
     cv_std : dictionary
         Trained machine learning models cross val roc_auc scores std deviations.
+
 
     Returns
     -------
@@ -234,12 +243,13 @@ def inference(model, X):
 
 def compute_slice_metrics(model, df, y, cat_feature):
     """ Function that computes performance on model slices
-    
-    Computes and saves the performance metrics when the value of a given feature is held fixed. 
-    E.g. for education, it would print out the model metrics for each slice of data 
-    that has a particular value for education. You should have one set of outputs 
-    for every single unique value in education.   
-    
+
+    Computes and saves the performance metrics when the value of a given feature
+    is held fixed.
+    E.g. for education, it would print out the model metrics for each slice of
+    data that has a particular value for education. You should have one set of
+    outputs for every single unique value in education.
+
     Inputs
     ------
     model : ???
@@ -399,7 +409,8 @@ if __name__ == "__main__":
 
     models.extend([rf, gbc])
 
-    # parallel cross-validate models, using roc_auc as evaluation metric, and print summaries
+    # parallel cross-validate models, using roc_auc as evaluation metric,
+    # and print summaries
     print("Beginning cross validation...")
     for model in models:
         train_model(model, feature_df, target_df, num_procs, roc_auc_dict, cv_std)
