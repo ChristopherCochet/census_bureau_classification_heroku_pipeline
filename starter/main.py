@@ -61,7 +61,7 @@ census_app = FastAPI()
 # GET must be on the root domain and give a greeting
 @census_app.get("/")
 async def root():
-    return {"message": "Census Bureau Salray Prediction App"}
+    return {"message": "Census Bureau Salary Prediction App"}
 
 
 # https://github.com/bodywork-ml/bodywork-scikit-fastapi-project
