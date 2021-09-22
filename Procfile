@@ -1,0 +1,1 @@
+web: uvicorn main:census_app --app-dir starter --host=127.0.0.1 --port=${PORT:-5000}
