@@ -11,7 +11,7 @@ format:
 lint:
 	flake8 --ignore=E303,E302  --max-line-length=88 starter/*.py starter/starter/ml/*.py 
 
-dvc:          
+dvc:
     dvc pull	
 
 all: install lint test
