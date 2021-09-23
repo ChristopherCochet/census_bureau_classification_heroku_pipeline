@@ -12,7 +12,16 @@ from pydantic import BaseModel
 
 from starter.ml.train_model import one_hot_encode_feature_df, inference
 
+import os
 
+# DVC set-up for Heroku
+if "DYNO" in os.environ and os.path.isdir(".dvc"):
+    os.system("dvc config core.no_scm true")
+    if os.system("dvc pull") != 0:
+        exit("dvc pull failed")
+    os.system("rm -r .dvc .apt/usr/lib/dvc")
+
+# Directory Paths
 model_dir = "starter/model/"
 feature_encoding_file = model_dir + "census_feature_encoding.pkl"
 census_model_file = model_dir + "census_model.pkl"
