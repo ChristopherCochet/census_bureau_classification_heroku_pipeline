@@ -14,3 +14,4 @@ dvc[s3]
 dvc==2.6.4
 pydantic
 dill
+Jinja2

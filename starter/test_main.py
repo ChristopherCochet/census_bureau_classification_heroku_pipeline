@@ -1,4 +1,5 @@
 from fastapi.testclient import TestClient
+from fastapi.templating import Jinja2Templates
 
 # Import our app from main.py.
 from main import census_app
