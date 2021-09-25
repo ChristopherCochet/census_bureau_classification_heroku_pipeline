@@ -1,7 +1,8 @@
 import dill as pickle
 import pandas as pd
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.templating import Jinja2Templates
 
 # Import Union since our Item object will have tags that can be
 # strings or a list.
@@ -24,9 +25,12 @@ if "DYNO" in os.environ and os.path.isdir(".dvc"):
 
 # Directory Paths
 model_dir = "starter/model/"
+template_dir = "starter/templates/"
 feature_encoding_file = model_dir + "census_feature_encoding.pkl"
 census_model_file = model_dir + "census_model.pkl"
 
+# html templates
+templates = Jinja2Templates(template_dir)
 
 # Declare the data object with its components and their type.
 class census_data(BaseModel):
@@ -70,8 +74,9 @@ census_app = FastAPI()
 
 # GET must be on the root domain and give a greeting
 @census_app.get("/")
-async def root():
-    return {"message": "Census Bureau Salary Prediction App"}
+async def root(request: Request):
+    template = templates.TemplateResponse("home.html", {"request": request},)
+    return template
 
 
 # https://github.com/bodywork-ml/bodywork-scikit-fastapi-project
