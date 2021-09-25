@@ -326,11 +326,11 @@ And running the heroku CLI command:
 
 Once connected to the project github repo, Heroku continuous dseployment is simple to set-up and use to track deployments:
 
-<img src="starter/screenshots/heroku-cd-enabled.JPG" width="600">
+<img src="starter/screenshots/heroku-cd-enabled.JPG" width="400">
 
 The history of build and logs is also easily accessible:
 
-<img src="starter/screenshots/heroku_build_history.JPG" width="600">
+<img src="starter/screenshots/heroku_build_history.JPG" width="400">
 
 # 9. Testing the Deployed Heroku App
 
@@ -338,7 +338,7 @@ Once the Heroku App is deployed, it will be publicly accessible ``https://census
 
 **Heroku app ``/`` root web access**
 
-<img src="starter/screenshots/heroku_live_get_results.JPG" width="600">
+<img src="starter/screenshots/heroku_live_get_results.JPG" width="400">
 
 **Heroku app root html get returned using a test ``curl`` script**
 
