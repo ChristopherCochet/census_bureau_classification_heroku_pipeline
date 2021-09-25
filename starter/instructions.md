@@ -1,5 +1,3 @@
-[![census bureau classification pipelinw with heroku](https://github.com/ChristopherCochet/census_bureau_classification_heroku_pipeline/actions/workflows/census-app.yml/badge.svg)](https://github.com/ChristopherCochet/census_bureau_classification_heroku_pipeline/actions/workflows/census-app.yml)
-
 Working in a command line environment is recommended for ease of use with git and dvc. If on Windows, WSL1 or 2 is recommended.
 
 # Environment Set up
