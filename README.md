@@ -4,7 +4,7 @@
 
 **Project description:** In this project, we will be deploying an end to end CI/CD pipeline salary classification web app using scikit-learn, dvc, github actions, FastAPI and Heroku. The pipeline classifies the salaries of citizens based on a census bureau dataset. The focus on the project is on the CI/CD pipeline and MLOps process to quickly test and deploy revisions of the model while modelling takes a back seat.
 
-<kbd> <img src="starter/screenshots/end-to-end-pipeline-process.JPG" width="800"> </kbd>
+Source: [Udacity - Machine Learning DevOps Engineer Nano-degree](https://www.udacity.com/course/machine-learning-dev-ops-engineer-nanodegree--nd0821)
 
 
 The different component of the pipeline are: 
@@ -18,15 +18,8 @@ The different component of the pipeline are:
   * [Continuous Deployment with Heroku](#8-continuous-deployment-with-heroku)
   * [Testing the Deployed Heroku App](#9-testing-the-deployed-heroku-app)
 ---
-## ML Pipeline Concepts - Artefacts and Components
-
-<kbd> <img src="images/pipeline-artifacts-components.JPG" width="600"> </kbd>
-
-Source: [Udacity - Machine Learning DevOps Engineer Nano-degree](https://www.udacity.com/course/machine-learning-dev-ops-engineer-nanodegree--nd0821)
 
 ## MLOps Tools Used for this Project
-
-<kbd> <img src="starter/screenshots/project-intro-tools.JPG" width="600"> </kbd>
 
   * Github Actions for the pipeline's continuous integration and the pipeline's release management
   * DVC for data and model artifact versioning
@@ -35,6 +28,9 @@ Source: [Udacity - Machine Learning DevOps Engineer Nano-degree](https://www.uda
   * Pytest for the validation of the cleaned dataset
   * Fast API for the web app creation and predictions serving
   * Heroku for the continuous deployment of the Fast API web app
+
+<kbd> <img src="starter/screenshots/cicd_pipeline_tools.JPG" width="800"> </kbd>
+
 
 ## Project Links
  * [Project instructions](starter/instructions.md)
@@ -128,7 +124,8 @@ With Github action, the continuous integration is triggered every time a push is
 
 # 1. Exploratory Data Analysis (EDA) And Cleaning
 
-The basic EDA adn cleaning tasks were performed in the following notebook: [link](https://github.com/ChristopherCochet/census_bureau_classification_heroku_pipeline/blob/master/starter/notebooks/census-eda-clean.ipynb)
+<kbd> <img src="https://christophercochet.github.io/Market-Basket-Analysis/images/jupyter.png"/> </kbd>
+The basic EDA adn cleaning tasks were performed in the following notebook: [here](https://github.com/ChristopherCochet/census_bureau_classification_heroku_pipeline/blob/master/starter/notebooks/census-eda-clean.ipynb)
 
 Census Income Data Set: https://archive.ics.uci.edu/ml/datasets/census+income
 
@@ -168,9 +165,11 @@ The raw dataset has 32k rows and the following features (the ``salary`` feature 
     *  >50K, <=50K
 
 # 2. Modelling and Evaluation
+
+<kbd> <img src="https://christophercochet.github.io/Market-Basket-Analysis/images/jupyter.png"/> </kbd>
 The basic EDA adn cleaning tasks were performed in the following notebook: [link](https://github.com/ChristopherCochet/census_bureau_classification_heroku_pipeline/blob/master/starter/notebooks/census-modelling.ipynb)
 
-[Refer to the model's information card for detailed information](https://github.com/ChristopherCochet/census_bureau_classification_heroku_pipeline/blob/master/starter/model_card_template.md)
+Refer to the **model's information card** for detailed information [here](https://github.com/ChristopherCochet/census_bureau_classification_heroku_pipeline/blob/master/starter/model_card_template.md)
 
 The problem at hand is a binary classification (classification of salaries : =>50K or <=50K)  with labels somewhat imbalanced: approximately 25% of labels >50K and 75% <=650K and an ``roc_auc_score`` was used to evaluate a set of different models. The best performing models saved was a tuned ``GradientBoostingClassifier`` using scikit-learn.
 
@@ -222,9 +221,14 @@ DVC was used to track the version of the pipeline's key artifacts using an AWS S
 * data preprocessing and encoding module: ``census_feature_encoding.pkl``
 * model slice test results (precision, recall, beta): ``slice_output.txt``
 
+**To check the artifacts managed by DVC:**
+```bash
+> dvc dag
+```
+
 <img src="starter/screenshots/dvc-dag.JPG" width="300">
 
-**To retrieve the latest version of the pipeline's artifacts:**
+**To retrieve the latest version of the pipeline's artifacts from the S3 bucket:**
 ```bash
 > dvc pull -r s3remote
 ```
@@ -325,11 +329,11 @@ And running the heroku CLI command:
 
 Once connected to the project github repo, Heroku continuous deployment is simple to set-up and use to track deployments:
 
-<img src="starter/screenshots/heroku-cd-enabled.JPG" width="300">
+<img src="starter/screenshots/heroku-cd-enabled.JPG" width="400">
 
 The history of build and logs is also easily accessible:
 
-<img src="starter/screenshots/heroku_build_history.JPG" width="300">
+<img src="starter/screenshots/heroku_build_history.JPG" width="400">
 
 # 9. Testing the Deployed Heroku App
 
@@ -339,7 +343,7 @@ Once the Heroku App is deployed, it will be publicly accessible ``https://census
 
 <img src="starter/screenshots/heroku_live_get_results.JPG" width="400">
 
-**Heroku app root html get returned using a test ``curl`` script**
+**Heroku app root html template code returned using a test get request ``curl`` script**
 
 <img src="starter/screenshots/heroku_live_get.JPG" width="600">
 
@@ -349,9 +353,10 @@ Once the Heroku App is deployed, it will be publicly accessible ``https://census
 
 ---
 # References
-
+* [Noah Gift's Pragmatic AI youtube channel](https://www.youtube.com/channel/UCNDfiL0D1LUeKWAkRE1xO5Q)
 * [Build a landing page for your project by implementing FastAPI & Airtable by 
 CodingEntrepreneurs](https://www.youtube.com/watch?v=EZbXvn5CwpM)
 * [Github Actions](https://github.com/features/actions)
 * [Fast API](https://fastapi.tiangolo.com/)
 * [DVC](https://dvc.org/)
+* [Heroku](https://www.heroku.com)
