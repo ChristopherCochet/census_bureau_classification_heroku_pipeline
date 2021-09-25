@@ -118,12 +118,13 @@ With Github action, the continuous integration is triggered every time a push is
 > on: [ push ]
 ```
 
-**Continuous Integration - Runs **
+**Continuous Integration - Github Action Runs**
+
 <img src="starter/screenshots/github-action-example.JPG" width="600">
 
 **Continuous Integration - Latest Build Status**
-<img src="starter/screenshots/github-action-badge.JPG" width="800">
 
+<img src="starter/screenshots/github-action-badge.JPG">
 
 # 1. Exploratory Data Analysis (EDA) And Cleaning
 
@@ -171,14 +172,15 @@ The basic EDA adn cleaning tasks were performed in the following notebook: [link
 
 [Refer to the model's information card for detailed information](https://github.com/ChristopherCochet/census_bureau_classification_heroku_pipeline/blob/master/starter/model_card_template.md)
 
-The problem at hand is a binary classification (classification of salaries : =>50K or <=50K)  with labels somewhat imbalanced: approximately 25% of labels >50K and 75% <=650K
-
-and an ``roc_auc_score`` was used to evaluate a set of different models. The best performing models saved was a tuned ``GradientBoostingClassifier`` using scikit-learn.
+The problem at hand is a binary classification (classification of salaries : =>50K or <=50K)  with labels somewhat imbalanced: approximately 25% of labels >50K and 75% <=650K and an ``roc_auc_score`` was used to evaluate a set of different models. The best performing models saved was a tuned ``GradientBoostingClassifier`` using scikit-learn.
 
 **Model's roc-auc-curve**
+
 <img src="starter/screenshots/roc-auc-curve.JPG" width="800">
 
+
 **Model's feature importances**
+
 <img src="starter/screenshots/model-feature-importances.JPG" width="600">
 
 # 3. Model Testing
@@ -222,7 +224,7 @@ DVC was used to track the version of the pipeline's key artifacts using an AWS S
 
 <img src="starter/screenshots/dvc-dag.JPG" width="300">
 
-**To retrieve the latest version of the pipeline's artifacts :**
+**To retrieve the latest version of the pipeline's artifacts:**
 ```bash
 > dvc pull -r s3remote
 ```
@@ -267,12 +269,15 @@ async def get_prediction(payload: census_data):
 ```
 
 **Prediction API**
+
 <img src="starter/screenshots/api-predict.JPG" width="500">
 
 **Prediction result example**
+
 <img src="starter/screenshots/api-predict-result-example.JPG" width="500">
 
 **To run the FastAPI web app component locally :**
+
 ```bash
 > uvicorn main:census_app --app-dir starter --reload 
 ```
@@ -318,25 +323,28 @@ And running the heroku CLI command:
 
 # 8. Continuous Deployment With Heroku
 
-Once connected to the project github repo, Heroku Continuous Deployment is simple to set-up and use to track deployments:
+Once connected to the project github repo, Heroku continuous deployment is simple to set-up and use to track deployments:
 
-<img src="starter/screenshots/heroku-cd-enabled.JPG" width="600">
+<img src="starter/screenshots/heroku-cd-enabled.JPG" width="300">
 
 The history of build and logs is also easily accessible:
 
-<img src="starter/screenshots/heroku_build_history.JPG" width="600">
+<img src="starter/screenshots/heroku_build_history.JPG" width="300">
 
 # 9. Testing the Deployed Heroku App
 
 Once the Heroku App is deployed, it will be publicly accessible ``https://census-bureau-salary-pred.herokuapp.com/`` and can be easily tested using curl or python scripts
 
 **Heroku app ``/`` root web access**
-<img src="starter/screenshots/heroku_live_get_results.JPG" width="600">
+
+<img src="starter/screenshots/heroku_live_get_results.JPG" width="400">
 
 **Heroku app root html get returned using a test ``curl`` script**
+
 <img src="starter/screenshots/heroku_live_get.JPG" width="600">
 
 **Heroku app ``/predict`` route inference results returned using a test ``curl`` script**
+
 <img src="starter/screenshots/heroku_live_post.JPG" width="600">
 
 ---
