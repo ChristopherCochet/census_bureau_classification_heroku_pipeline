@@ -118,14 +118,13 @@ With Github action, the continuous integration is triggered every time a push is
 > on: [ push ]
 ```
 
-**Continuous Integration - Runs**
+**Continuous Integration - Github Action Runs**
 
 <img src="starter/screenshots/github-action-example.JPG" width="600">
 
 **Continuous Integration - Latest Build Status**
 
-<img src="starter/screenshots/github-action-badge.JPG" width="300">
-
+<img src="starter/screenshots/github-action-badge.JPG">
 
 # 1. Exploratory Data Analysis (EDA) And Cleaning
 
@@ -269,7 +268,7 @@ async def get_prediction(payload: census_data):
     return results
 ```
 
-**Prediction API**</br>
+**Prediction API**
 
 <img src="starter/screenshots/api-predict.JPG" width="500">
 
@@ -324,13 +323,13 @@ And running the heroku CLI command:
 
 # 8. Continuous Deployment With Heroku
 
-Once connected to the project github repo, Heroku continuous dseployment is simple to set-up and use to track deployments:
+Once connected to the project github repo, Heroku continuous deployment is simple to set-up and use to track deployments:
 
-<img src="starter/screenshots/heroku-cd-enabled.JPG" width="400">
+<img src="starter/screenshots/heroku-cd-enabled.JPG" width="300">
 
 The history of build and logs is also easily accessible:
 
-<img src="starter/screenshots/heroku_build_history.JPG" width="400">
+<img src="starter/screenshots/heroku_build_history.JPG" width="300">
 
 # 9. Testing the Deployed Heroku App
 
