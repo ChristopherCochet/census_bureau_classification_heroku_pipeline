@@ -12,7 +12,6 @@ def test_api_locally_get_root():
 
     r = client.get("/")
     assert r.status_code == 200
-    assert r.json() == {"message": "Census Bureau Salary Prediction App"}
 
 
 def test_api_locally_get_predictions_inf1():
