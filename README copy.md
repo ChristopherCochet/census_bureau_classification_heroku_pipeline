@@ -269,7 +269,7 @@ async def get_prediction(payload: census_data):
     return results
 ```
 
-**Prediction API**
+**Prediction API**</br>
 
 <img src="starter/screenshots/api-predict.JPG" width="500">
 
