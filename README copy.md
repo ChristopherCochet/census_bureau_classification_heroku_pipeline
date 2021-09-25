@@ -118,11 +118,13 @@ With Github action, the continuous integration is triggered every time a push is
 > on: [ push ]
 ```
 
-**Continuous Integration - Runs **
+**Continuous Integration - Runs**
+
 <img src="starter/screenshots/github-action-example.JPG" width="600">
 
 **Continuous Integration - Latest Build Status**
-<img src="starter/screenshots/github-action-badge.JPG" width="800">
+
+<img src="starter/screenshots/github-action-badge.JPG" width="300">
 
 
 # 1. Exploratory Data Analysis (EDA) And Cleaning
@@ -177,6 +179,7 @@ The problem at hand is a binary classification (classification of salaries : =>5
 
 <img src="starter/screenshots/roc-auc-curve.JPG" width="800">
 
+
 **Model's feature importances**
 
 <img src="starter/screenshots/model-feature-importances.JPG" width="600">
@@ -222,7 +225,7 @@ DVC was used to track the version of the pipeline's key artifacts using an AWS S
 
 <img src="starter/screenshots/dvc-dag.JPG" width="300">
 
-**To retrieve the latest version of the pipeline's artifacts :**
+**To retrieve the latest version of the pipeline's artifacts:**
 ```bash
 > dvc pull -r s3remote
 ```
