@@ -79,7 +79,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "url",
         type=str,
-        help="url and port of the app to test inferences for (e.g. http://127.0.0.1:8000)",
+        help="url[:port] of the app to test inferences (e.g. http://127.0.0.1:8000)",
     )
 
     args = parser.parse_args()
