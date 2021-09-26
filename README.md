@@ -34,7 +34,7 @@ The different component of the pipeline are:
 
 ## Project Links
  * [Project instructions](starter/instructions.md)
- * [Heroku Wen App](https://census-bureau-salary-pred.herokuapp.com/)
+ * [Heroku Web App](https://census-bureau-salary-pred.herokuapp.com/)
  * [Github repository](https://github.com/ChristopherCochet/census_bureau_classification_heroku_pipeline)
 
 ## Overview of the CI/CD Pipeline's Code Organization
@@ -125,7 +125,7 @@ With Github action, the continuous integration is triggered every time a push is
 # 1. Exploratory Data Analysis (EDA) And Cleaning
 
 <kbd> <img src="https://christophercochet.github.io/Market-Basket-Analysis/images/jupyter.png"/> </kbd>
-The basic EDA adn cleaning tasks were performed in the following notebook: [here](https://github.com/ChristopherCochet/census_bureau_classification_heroku_pipeline/blob/master/starter/notebooks/census-eda-clean.ipynb)
+The basic EDA and cleaning tasks were performed in the following notebook: [here](https://github.com/ChristopherCochet/census_bureau_classification_heroku_pipeline/blob/master/starter/notebooks/census-eda-clean.ipynb)
 
 Census Income Data Set: https://archive.ics.uci.edu/ml/datasets/census+income
 
@@ -167,9 +167,7 @@ The raw dataset has 32k rows and the following features (the ``salary`` feature 
 # 2. Modelling and Evaluation
 
 <kbd> <img src="https://christophercochet.github.io/Market-Basket-Analysis/images/jupyter.png"/> </kbd>
-The basic EDA adn cleaning tasks were performed in the following notebook: [link](https://github.com/ChristopherCochet/census_bureau_classification_heroku_pipeline/blob/master/starter/notebooks/census-modelling.ipynb)
-
-Refer to the **model's information card** for detailed information [here](https://github.com/ChristopherCochet/census_bureau_classification_heroku_pipeline/blob/master/starter/model_card_template.md)
+The basic modeling tasks were performed in the following notebook adn then turned into a python script: [link](https://github.com/ChristopherCochet/census_bureau_classification_heroku_pipeline/blob/master/starter/notebooks/census-modelling.ipynb)
 
 The problem at hand is a binary classification (classification of salaries : =>50K or <=50K)  with labels somewhat imbalanced: approximately 25% of labels >50K and 75% <=650K and an ``roc_auc_score`` was used to evaluate a set of different models. The best performing models saved was a tuned ``GradientBoostingClassifier`` using scikit-learn.
 
@@ -181,6 +179,45 @@ The problem at hand is a binary classification (classification of salaries : =>5
 **Model's feature importances**
 
 <img src="starter/screenshots/model-feature-importances.JPG" width="600">
+
+
+**Model training script and best performing model results:**
+```bash
+> python starter/starter/ml/train_model.py
+```
+
+```
+Model with highest roc_auc:
+GradientBoostingClassifier(loss='exponential', max_depth=5, n_estimators=150)
+Fit best performing model...
+
+Compute metrics...
+Model metrics: precision = 0.8093745101113027, recall = 0.6876664890783165, fbeta(1) = 0.7435731259451286
+```
+
+**Slice test results on the ``education`` feature:**
+```
+                        precision    recall     fbeta
+education_10th           1.000000  0.271186  0.426667
+education_11th           1.000000  0.406780  0.578313
+education_12th           0.909091  0.344828  0.500000
+education_1st-4th        1.000000  0.166667  0.285714
+education_5th-6th        0.800000  0.333333  0.470588
+education_7th-8th        0.714286  0.142857  0.238095
+education_9th            1.000000  0.160000  0.275862
+education_Assoc-acdm     0.780591  0.722656  0.750507
+education_Assoc-voc      0.786517  0.610465  0.687398
+education_Bachelors      0.786864  0.850894  0.817627
+education_Doctorate      0.858521  0.953571  0.903553
+education_HS-grad        0.846154  0.380952  0.525373
+education_Masters        0.842916  0.894336  0.867865
+education_Preschool      1.000000  1.000000  1.000000
+education_Prof-school    0.902326  0.955665  0.928230
+education_Some-college   0.753991  0.601048  0.668888
+education-num            1.000000  1.000000  1.000000
+```
+
+Refer to the **model's information card** for detailed information [here](https://github.com/ChristopherCochet/census_bureau_classification_heroku_pipeline/blob/master/starter/model_card_template.md)
 
 # 3. Model Testing
 
