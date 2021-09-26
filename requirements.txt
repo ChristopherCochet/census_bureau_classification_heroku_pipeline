@@ -15,3 +15,4 @@ dvc==2.6.4
 pydantic
 dill
 Jinja2
+beautifulsoup4

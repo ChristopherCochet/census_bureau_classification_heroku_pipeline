@@ -11,7 +11,7 @@ from fastapi.templating import Jinja2Templates
 # BaseModel from Pydantic is used to define data objects.
 from pydantic import BaseModel, Field
 
-from starter.ml.train_model import one_hot_encode_feature_df, inference
+from starter.ml.model import one_hot_encode_feature_df, inference
 
 import os
 
@@ -81,7 +81,7 @@ async def root(request: Request):
 async def get_prediction(payload: census_data):
 
     # pdb.set_trace()
-    print(payload)
+    # print(payload)
     # Convert input data into a dictionary and then pandas dataframe
     census_data_df = pd.DataFrame.from_dict([payload.dict(by_alias=True)])
 
