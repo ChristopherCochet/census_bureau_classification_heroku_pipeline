@@ -77,4 +77,3 @@ if __name__ == "__main__":
     print("test_api_live_get_predictions_inf2 ...")
     res = test_api_live_get_predictions_inf2()
     print(res)
-

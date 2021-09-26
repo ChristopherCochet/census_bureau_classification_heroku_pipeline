@@ -1,7 +1,7 @@
 import dill as pickle
 import pandas as pd
 
-from fastapi import FastAPI, HTTPException, Request, Body
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.templating import Jinja2Templates
 
 # Import Union since our Item object will have tags that can be

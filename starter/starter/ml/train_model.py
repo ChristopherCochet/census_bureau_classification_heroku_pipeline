@@ -1,7 +1,5 @@
 # Script to train machine learning model.
 import pandas as pd
-import numpy as np
-import dill as pickle
 from model import (
     load_file,
     generate_feature_encoding,
