@@ -1,9 +1,13 @@
 import json
 import requests
+import argparse
 
 
-def test_api_live_get_predictions_inf1():
+def test_api_live_get_predictions_inf1(args):
     """ Test Fast API predict route with a '<=50K' salary prediction result """
+
+    app_url = args.url + "/predict"
+    print(f"test_api_live_get_predictions_inf1 -> {app_url}...")
 
     expected_res = "Predicts ['<=50K']"
 
@@ -25,16 +29,16 @@ def test_api_live_get_predictions_inf1():
     }
     headers = {"Content-Type": "application/json"}
 
-    r = requests.post(
-        "http://127.0.0.1:8000/predict", data=json.dumps(test_data), headers=headers
-    )
+    r = requests.post(app_url, data=json.dumps(test_data), headers=headers)
     assert r.status_code == 200
     assert (r.json()["predict"][: len(expected_res)]) == expected_res
     return r.json()["predict"][: len(expected_res)]
 
 
-def test_api_live_get_predictions_inf2():
+def test_api_live_get_predictions_inf2(args):
     """ Test Fast API predict route with a '>50K' salary prediction result """
+    app_url = args.url + "/predict"
+    print(f"test_api_live_get_predictions_inf2 -> {app_url}...")
 
     expected_res = "Predicts ['>50K']"
 
@@ -56,9 +60,10 @@ def test_api_live_get_predictions_inf2():
     }
     headers = {"Content-Type": "application/json"}
 
-    r = requests.post(
-        "http://127.0.0.1:8000/predict", data=json.dumps(test_data), headers=headers
-    )
+    r = requests.post(app_url, data=json.dumps(test_data), headers=headers)
+    # r = requests.post(
+    #     "http://127.0.0.1:8000/predict", data=json.dumps(test_data), headers=headers
+    # )
 
     assert r.status_code == 200
     assert (r.json()["predict"][: len(expected_res)]) == expected_res
@@ -67,13 +72,25 @@ def test_api_live_get_predictions_inf2():
 
 if __name__ == "__main__":
 
-    print("testing live app ...")
+    parser = argparse.ArgumentParser(
+        description="Census Bureau Heroku App Predictions Test CLI"
+    )
+
+    parser.add_argument(
+        "url",
+        type=str,
+        help="url and port of the app to test inferences for (e.g. http://127.0.0.1:8000)",
+    )
+
+    args = parser.parse_args()
+
+    print(f"testing live app prediction for {args.url}...")
 
     # Call live testing function
     print("test_api_live_get_predictions_inf1 ...")
-    res = test_api_live_get_predictions_inf1()
+    res = test_api_live_get_predictions_inf1(args)
     print(res)
 
     print("test_api_live_get_predictions_inf2 ...")
-    res = test_api_live_get_predictions_inf2()
+    res = test_api_live_get_predictions_inf2(args)
     print(res)

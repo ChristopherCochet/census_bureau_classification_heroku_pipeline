@@ -13,7 +13,7 @@ The different component of the pipeline are:
   * [Model Testing](#3-model-testing)
   * [Data Version Control (DVC)](#4-data-version-control)
   * [API creation with FastAPI](#5-api-creation-with-fastapi)
-  * [Testing Fast API](#6-testing-fastapi)
+  * [Testing Fast API Locally](#6-testing-fastapi-locally)
   * [App Set-up On Heroku](#7-app-set-up-on-heroku)
   * [Continuous Deployment with Heroku](#8-continuous-deployment-with-heroku)
   * [Testing the Deployed Heroku App](#9-testing-the-deployed-heroku-app)
@@ -323,7 +323,7 @@ async def get_prediction(payload: census_data):
 > uvicorn main:census_app --app-dir starter --reload 
 ```
 
-# 6. Testing FastApi
+# 6. Testing FastAPI Locally
 
 The FastAPI App can be tested using pytest and sample data to validate the predictions
 ```
@@ -387,6 +387,27 @@ Once the Heroku App is deployed, it will be publicly accessible ``https://census
 **Heroku app ``/predict`` route inference results returned using a test ``curl`` script**
 
 <img src="starter/screenshots/heroku_live_post.JPG" width="600">
+
+**Heroku app ``/predict`` route inference results returned using a test script ``starter/heroku_api_request.py`` that uses the Python requests package to make POST requests to the deployed Heroku App:**
+
+```
+python starter/heroku_api_request.py -h
+usage: heroku_api_request.py [-h] url
+
+Census Bureau Heroku App Predictions Test CLI
+
+positional arguments:
+  url   url and port of the app to test inferences for (e.g. http://127.0.0.1:8000)
+
+optional arguments:
+  -h, --help  show this help message and exit
+```
+
+```bash
+> python starter/heroku_api_request.py http://census-bureau-salary-pred.herokuapp.com
+```
+
+<img src="starter/screenshots/live_post.JPG" width="1500">
 
 ---
 # References
