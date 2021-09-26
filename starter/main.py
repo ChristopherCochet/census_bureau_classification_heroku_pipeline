@@ -1,7 +1,7 @@
 import dill as pickle
 import pandas as pd
 
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Request, Body
 from fastapi.templating import Jinja2Templates
 
 # Import Union since our Item object will have tags that can be
@@ -9,7 +9,7 @@ from fastapi.templating import Jinja2Templates
 # from typing import Union
 
 # BaseModel from Pydantic is used to define data objects.
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from starter.ml.train_model import one_hot_encode_feature_df, inference
 
@@ -34,43 +34,39 @@ templates = Jinja2Templates(template_dir)
 
 # Declare the data object with its components and their type.
 class census_data(BaseModel):
-    age: int
-    workclass: str
-    fnlgt: int
-    education: str
-    education_num: int
-    marital_status: str
-    occupation: str
-    relationship: str
-    race: str
-    sex: str
-    capital_gain: int
-    capital_loss: int
-    hours_per_week: int
-    native_country: str
-
-    class Config:
-        schema_extra = {
-            "example": {
-                "age": 39,
-                "workclass": "State-gov",
-                "fnlgt": 77516,
-                "education": "Bachelors",
-                "education_num": 13,
-                "marital_status": "Never-married",
-                "occupation": "Adm-clerical",
-                "relationship": "Not-in-family",
-                "race": "White",
-                "sex": "Male",
-                "capital_gain": 2174,
-                "capital_loss": 0,
-                "hours_per_week": 40,
-                "native_country": "United-States",
-            }
-        }
+    age: int = Field(..., example=39)
+    workclass: str = Field(..., example="State-gov")
+    fnlgt: int = Field(..., example=77516)
+    education: str = Field(..., example="Bachelors")
+    education_num: int = Field(..., example=13, alias="education-num")
+    marital_status: str = Field(..., example="Never-married", alias="marital-status")
+    occupation: str = Field(..., example="Adm-clerical")
+    relationship: str = Field(..., example="Not-in-family")
+    race: str = Field(..., example="White")
+    sex: str = Field(..., example="Male")
+    capital_gain: int = Field(..., example=2174, alias="capital-gain")
+    capital_loss: int = Field(..., example=0, alias="capital-loss")
+    hours_per_week: int = Field(..., example=40, alias="hours-per-week")
+    native_country: str = Field(..., example="United-States", alias="native-country")
 
 
+# declare fastapi app
 census_app = FastAPI()
+
+# Load model artifacts upon startup of the application
+@census_app.on_event("startup")
+async def startup_event():
+    global census_model, ct
+
+    # load data encoder
+    with open(feature_encoding_file, "rb") as file:
+        ct = pickle.load(file)
+        print("census_app - loaded {}".format(feature_encoding_file))
+
+    # load model
+    census_model = pickle.load(open(census_model_file, "rb"))
+    print("census_app - loaded {}".format(census_model_file))
+
 
 # GET must be on the root domain and give a greeting
 @census_app.get("/")
@@ -87,18 +83,10 @@ async def get_prediction(payload: census_data):
     # pdb.set_trace()
     print(payload)
     # Convert input data into a dictionary and then pandas dataframe
-    census_data_df = pd.DataFrame.from_dict([payload.dict()])
-    census_data_df.columns = census_data_df.columns.str.replace("_", "-")
-
-    # load data encoder
-    with open(feature_encoding_file, "rb") as file:
-        ct = pickle.load(file)
+    census_data_df = pd.DataFrame.from_dict([payload.dict(by_alias=True)])
 
     # process post census data
     encoded_census_df = one_hot_encode_feature_df(census_data_df, ct)
-
-    # load model
-    census_model = pickle.load(open(census_model_file, "rb"))
 
     # generate predictions
     preds = inference(census_model, encoded_census_df)
