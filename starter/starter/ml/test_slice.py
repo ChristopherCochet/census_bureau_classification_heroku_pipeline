@@ -5,7 +5,7 @@ import pytest
 
 # import pdb
 from sklearn.compose import ColumnTransformer
-from .train_model import one_hot_encode_feature_df, generate_feature_encoding
+from .model import one_hot_encode_feature_df, generate_feature_encoding
 
 
 @pytest.fixture
