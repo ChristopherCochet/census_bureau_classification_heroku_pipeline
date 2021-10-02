@@ -6,7 +6,6 @@
 
 Source: [Udacity - Machine Learning DevOps Engineer Nano-degree](https://www.udacity.com/course/machine-learning-dev-ops-engineer-nanodegree--nd0821)
 
-
 The different component of the pipeline are: 
   * [Exploratory Data Analysis & Data cleaning](#1-exploratory-data-analysis-eda-and-cleaning)
   * [Modelling](#2-modelling-and-evaluation)
